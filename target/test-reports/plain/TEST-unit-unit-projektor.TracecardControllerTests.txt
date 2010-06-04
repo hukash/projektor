@@ -1,0 +1,10 @@
+Testsuite: projektor.TracecardControllerTests
+Tests run: 1, Failures: 0, Errors: 0, Time elapsed: 0,581 sec
+------------- Standard Output ---------------
+--Output from testRenderIndex--
+------------- ---------------- ---------------
+------------- Standard Error -----------------
+--Output from testRenderIndex--
+------------- ---------------- ---------------
+
+Testcase: testRenderIndex took 0,564 sec
