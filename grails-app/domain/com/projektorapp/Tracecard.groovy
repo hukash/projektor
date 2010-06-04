@@ -15,7 +15,9 @@ class Tracecard {
     Date dateCreated
     Date lastUpdated 
     Date deadline
-  
+ 
+    static hasMany = [tasks:Task]
+ 
     static constraints = {
         creator(blank:false, minLength:3)
         client(blank:false, minLength:3)
@@ -27,7 +29,7 @@ class Tracecard {
         offerId(blank:true)
         orderId(blank:true)
         status(blank:false, range:0..99)
-        description(length:1000)
+        description(maxLength:1000)
     }
 
     def beforeInsert() {
