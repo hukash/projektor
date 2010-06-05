@@ -8,8 +8,10 @@ web-app/WEB-INF
 web-app/plugins
 .classpath
 .project
+.idea
 .settings
 *.iws
+*.iml
 *.war
 *.swp
 *DB*
