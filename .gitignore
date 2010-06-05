@@ -3,7 +3,7 @@
 plugins/*
 html
 stacktrace.log
-test/reports
+target/*
 web-app/WEB-INF
 web-app/plugins
 .classpath
