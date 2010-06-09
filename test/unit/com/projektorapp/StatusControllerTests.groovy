@@ -1,8 +1,8 @@
-package projektor
+package com.projektorapp
 
 import grails.test.*
 
-class SecureControllerTests extends ControllerUnitTestCase {
+class StatusControllerTests extends ControllerUnitTestCase {
     protected void setUp() {
         super.setUp()
     }

@@ -6,7 +6,5 @@ security {
 
 	loginUserDomainClass = "User"
 	authorityDomainClass = "Role"
-
-    useRequestMapDomainClass = false
-    useControllerAnnotations = true
+	requestMapClass = "Requestmap"
 }
