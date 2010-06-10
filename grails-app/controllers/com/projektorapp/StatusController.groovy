@@ -4,15 +4,30 @@ import org.codehaus.groovy.grails.plugins.springsecurity.Secured
 
 class StatusController {
 
-    def tracecardInstance = null
-    
-    def getTracecard = {
-        tracecardInstance = Tracecard.get(params.id)
+    def get_tracecard(tracecardId) {
+         def tracecardInstance = Tracecard.get(tracecardId)
+        if (!tracecardInstance) {
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'tracecard.label', default: 'Tracecard'), tracecardId])}"
+            redirect(controller: "tracecard", action: "list")
+        }
+        else {
+            render tracecardInstance.topic
+            return tracecardInstance
+        }
     }
-    @Secured(['ROLE_ADMIN'])
+
+    def index = {
+        redirect(action: "status_created", params: params)        
+    }
+
+    //@Secured(['ROLE_ADMIN'])
     def status_created = {
-       if (tracecardInstance.status == 0) {
-            tracecardInstance.status = 1
+        def mytc = get_tracecard(params.id)
+        if (mytc.status == 0) {
+            mytc.status = 1
+        }
+        else {
+            redirect(controller: "tracecard", action: "show", id: mytc.id)
         }
         // else render template with error message
     }
