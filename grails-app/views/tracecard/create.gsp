@@ -110,19 +110,19 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="status"><g:message code="tracecard.status.label" default="Status" /></label>
+                                    <label for="description"><g:message code="tracecard.description.label" default="Description" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: tracecardInstance, field: 'status', 'errors')}">
-                                    <g:select name="status" from="${0..99}" value="${fieldValue(bean: tracecardInstance, field: 'status')}"  />
+                                <td valign="top" class="value ${hasErrors(bean: tracecardInstance, field: 'description', 'errors')}">
+                                    <g:textField name="description" value="${tracecardInstance?.description}" />
                                 </td>
                             </tr>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="description"><g:message code="tracecard.description.label" default="Description" /></label>
+                                    <label for="status"><g:message code="tracecard.status.label" default="Status" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: tracecardInstance, field: 'description', 'errors')}">
-                                    <g:textField name="description" value="${tracecardInstance?.description}" />
+                                <td valign="top" class="value ${hasErrors(bean: tracecardInstance, field: 'status', 'errors')}">
+                                    <g:select name="status.id" from="${com.projektorapp.Status.list()}" optionKey="id" value="${tracecardInstance?.status?.id}"  />
                                 </td>
                             </tr>
                         

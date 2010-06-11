@@ -93,16 +93,16 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="tracecard.status.label" default="Status" /></td>
+                            <td valign="top" class="name"><g:message code="tracecard.description.label" default="Description" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: tracecardInstance, field: "status")}</td>
+                            <td valign="top" class="value">${fieldValue(bean: tracecardInstance, field: "description")}</td>
                             
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="tracecard.description.label" default="Description" /></td>
+                            <td valign="top" class="name"><g:message code="tracecard.status.label" default="Status" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: tracecardInstance, field: "description")}</td>
+                            <td valign="top" class="value"><g:link controller="status" action="show" id="${tracecardInstance?.status?.id}">${tracecardInstance?.status?.encodeAsHTML()}</g:link></td>
                             
                         </tr>
                     

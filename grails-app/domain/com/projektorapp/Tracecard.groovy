@@ -10,11 +10,12 @@ class Tracecard {
     String domain
     String offerId
     String orderId
-    int status
     String description
     Date dateCreated
     Date lastUpdated 
     Date deadline
+
+    Status status
  
     static hasMany = [tasks:Task]
  
@@ -28,7 +29,6 @@ class Tracecard {
         domain(blank:false, minLength:5)
         offerId(blank:true)
         orderId(blank:true)
-        status(blank:false, range:0..99)
         description(maxLength:1000)
     }
 
