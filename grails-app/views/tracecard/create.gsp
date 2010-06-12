@@ -119,13 +119,31 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="status"><g:message code="tracecard.status.label" default="Status" /></label>
+                                    <label for="status.lastEditor"><g:message code="status.lastEditor.label" default="last Editor" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: tracecardInstance, field: 'status', 'errors')}">
-                                    <g:select name="status.id" from="${com.projektorapp.Status.list()}" optionKey="id" value="${tracecardInstance?.status?.id}"  />
+                                <td valign="top" class="value ${hasErrors(bean: statusInstance, field: 'lastEditor', 'errors')}">
+                                    <g:textField name="status.lastEditor" value="${statusInstance?.lastEditor}" />
                                 </td>
                             </tr>
-                        
+
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="status.description"><g:message code="status.description.label" default="Description" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: statusInstance, field: 'description', 'errors')}">
+                                    <g:textField name="status.description" value="${statusInstance?.description}" />
+                                </td>
+                            </tr>
+
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="status.statusNr"><g:message code="status.statusNr.label" default="Status Nr" /></label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean: statusInstance, field: 'statusNr', 'errors')}">
+                                    <g:textField name="status.statusNr" value="${statusInstance?.statusNr}" />
+                                </td>
+                            </tr>
+
                             <tr class="prop">
                                 <td valign="top" class="name">
                                     <label for="deadline"><g:message code="tracecard.deadline.label" default="Deadline" /></label>

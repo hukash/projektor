@@ -14,9 +14,10 @@ class TracecardController {
     }
 
     def create = {
-        def tracecardInstance = new Tracecard()
+        def tracecardInstance = new Tracecard(params["tracecard"])
+        def statusInstance = new Status(params["status"])
         tracecardInstance.properties = params
-        return [tracecardInstance: tracecardInstance]
+        return [tracecardInstance: tracecardInstance, statusInstance: statusInstance]
     }
 
     def save = {

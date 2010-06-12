@@ -1,68 +1,100 @@
 package com.projektorapp
 
-import org.codehaus.groovy.grails.plugins.springsecurity.Secured
-
 class StatusController {
 
-    //static defaultAction = "statusCreated"
+    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
-    def tracecardInstance = new Tracecard()
-
-    def getTracecard(tracecardId) {
-        def tracecard = Tracecard.get(tracecardId)
-        return tracecard
+    def index = {
+        redirect(action: "list", params: params)
     }
-    //@Secured(['ROLE_ADMIN'])
-    def updateStatus = {
-        if (params.id) {
-            def tracecard = getTracecard(params.id)
-            if(!tracecard) {
-                flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'tracecard.label', default: 'Tracecard'), params.id])}"
-                redirect(controller: "tracecard", action: "list")
-            } else {
-                tracecardInstance = tracecard
-                editStatus(tracecardInstance)
+
+    def list = {
+        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        [statusInstanceList: Status.list(params), statusInstanceTotal: Status.count()]
+    }
+
+    def create = {
+        def statusInstance = new Status()
+        statusInstance.properties = params
+        return [statusInstance: statusInstance]
+    }
+
+    def save = {
+        def statusInstance = new Status(params)
+        if (statusInstance.save(flush: true)) {
+            flash.message = "${message(code: 'default.created.message', args: [message(code: 'status.label', default: 'Status'), statusInstance.id])}"
+            redirect(action: "show", id: statusInstance.id)
+        }
+        else {
+            render(view: "create", model: [statusInstance: statusInstance])
+        }
+    }
+
+    def show = {
+        def statusInstance = Status.get(params.id)
+        if (!statusInstance) {
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'status.label', default: 'Status'), params.id])}"
+            redirect(action: "list")
+        }
+        else {
+            [statusInstance: statusInstance]
+        }
+    }
+
+    def edit = {
+        def statusInstance = Status.get(params.id)
+        if (!statusInstance) {
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'status.label', default: 'Status'), params.id])}"
+            redirect(action: "list")
+        }
+        else {
+            return [statusInstance: statusInstance]
+        }
+    }
+
+    def update = {
+        def statusInstance = Status.get(params.id)
+        if (statusInstance) {
+            if (params.version) {
+                def version = params.version.toLong()
+                if (statusInstance.version > version) {
+                    
+                    statusInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'status.label', default: 'Status')] as Object[], "Another user has updated this Status while you were editing")
+                    render(view: "edit", model: [statusInstance: statusInstance])
+                    return
+                }
+            }
+            statusInstance.properties = params
+            if (!statusInstance.hasErrors() && statusInstance.save(flush: true)) {
+                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'status.label', default: 'Status'), statusInstance.id])}"
+                redirect(action: "show", id: statusInstance.id)
+            }
+            else {
+                render(view: "edit", model: [statusInstance: statusInstance])
             }
         }
         else {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'tracecard.label', default: 'Tracecard'), params.id])}"
-            redirect(controller: "tracecard", action: "list")
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'status.label', default: 'Status'), params.id])}"
+            redirect(action: "list")
         }
     }
 
-    /*
-        Status-Management
-        0   inProcess                   ROLE_USER
-        1   completed                   ROLE_USER
-        2   controlled                  ROLE_CONTROLLING g
-        3   controlledByManagement_1    ROLE_MANAGEMENT1, ROLE_MANAGEMENT
-        4   controlledByManagement_2    ROLE_MANAGEMENT2, ROLE_MANAGEMENT
-        5   controlledByManagement_3    ROLE_MANAGEMENT3, ROLE_MANAGEMENT
-        6   offered                     ROLE_CONTROLLING
-        7   approved                    ROLE_CONTROLLING
-        8   dismissed                   ROLE_USER, ROLE_CONTROLLING
-        9   incomplete                  ROLE_CONTROLLING, ROLE_MANAGEMENT
-       10   archived                    ROLE_CONTROLLING
-     */
-
-    def editStatus(tracecardInstance) {
-        def tracecard = tracecardInstance
-        switch(tracecard.status) {
-            case 0:
-                tracecard.status = 1
-                break
-            case 1:
-                tracecard.status = 2
-                break
-            case 2:
-                tracecard.status = 3
-                break
-            case { tracecard.status >= 5 }:
-                tracecard.status = 6
-                break
-            default:
-                tracecard.status = 0
+    def delete = {
+        def statusInstance = Status.get(params.id)
+        if (statusInstance) {
+            try {
+                statusInstance.delete(flush: true)
+                flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'status.label', default: 'Status'), params.id])}"
+                redirect(action: "list")
+            }
+            catch (org.springframework.dao.DataIntegrityViolationException e) {
+                flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'status.label', default: 'Status'), params.id])}"
+                redirect(action: "show", id: params.id)
+            }
         }
-        render tracecard.status.toString()
+        else {
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'status.label', default: 'Status'), params.id])}"
+            redirect(action: "list")
+        }
     }
 }
