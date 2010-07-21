@@ -1,4 +1,3 @@
-
 <%@ page import="com.projektorapp.Tracecard" %>
 <html>
     <head>
@@ -128,7 +127,7 @@
 
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="status.description"><g:message code="status.description.label" default="Description" /></label>
+                                    <label for="status.description"><g:message code="status.description.label" default="Status Description" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: statusInstance, field: 'description', 'errors')}">
                                     <g:textField name="status.description" value="${statusInstance?.description}" />
