@@ -20,7 +20,7 @@
             <div class="errors">
                 <g:renderErrors bean="${tracecardInstance}" as="list" />
             </div>
-            </g:hasErrors>
+            </g:hasErrors>           
             <g:form action="save" method="post" >
                 <div class="dialog">
                     <table>
@@ -120,7 +120,7 @@
                                 <td valign="top" class="name">
                                     <label for="status.lastEditor"><g:message code="status.lastEditor.label" default="last Editor" /></label>
                                 </td>
-                                <td valign="top" class="value ${hasErrors(bean: statusInstance, field: 'lastEditor', 'errors')}">
+                                <td valign="top" class="value ${hasErrors(bean: statusInstance, field: 'status.lastEditor', 'errors')}">
                                     <g:textField name="status.lastEditor" value="${statusInstance?.lastEditor}" />
                                 </td>
                             </tr>
