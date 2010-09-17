@@ -134,14 +134,12 @@
                                   <label for="tasks"><g:message code="tracecard.tasks.label" default="Tasks" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: tracecardInstance, field: 'tasks', 'errors')}">
-                                    
-<ul>
-<g:each in="${tracecardInstance?.tasks?}" var="t">
-    <li><g:link controller="task" action="show" id="${t.id}">${t?.encodeAsHTML()}</g:link></li>
-</g:each>
-</ul>
-<g:link controller="task" action="create" params="['tracecard.id': tracecardInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'task.label', default: 'Task')])}</g:link>
-
+                                  <ul>
+                                    <g:each in="${tracecardInstance?.tasks?}" var="t">
+                                      <li><g:link controller="task" action="show" id="${t.id}">${t?.encodeAsHTML()}</g:link></li>
+                                    </g:each>
+                                  </ul>
+                                  <g:link controller="task" action="create" params="['tracecard.id': tracecardInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'task.label', default: 'Task')])}</g:link>
                                 </td>
                             </tr>
                         
