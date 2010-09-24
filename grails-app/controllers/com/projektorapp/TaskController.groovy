@@ -1,5 +1,8 @@
 package com.projektorapp
 
+import org.codehaus.groovy.grails.plugins.springsecurity.Secured
+
+@Secured(['ROLE_ADMIN'])
 class TaskController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
