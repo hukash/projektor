@@ -88,7 +88,8 @@ class RoleController {
 		}
 
 		if (authenticateService.updateRole(authority, params)) {
-			authenticateService.clearCachedRequestmaps()
+			// after deleting RequestMap files, this line causes an error: 
+            // authenticateService.clearCachedRequestmaps()
 			redirect action: show, id: authority.id
 		}
 		else {
