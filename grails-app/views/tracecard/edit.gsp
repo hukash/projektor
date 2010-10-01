@@ -125,7 +125,7 @@
                                   <label for="status"><g:message code="tracecard.status.label" default="Status" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: tracecardInstance, field: 'status', 'errors')}">
-                                    <g:select name="status.id" from="${com.projektorapp.Status.list()}" optionKey="id" value="${tracecardInstance?.status?.id}"  />
+                                    <g:textField name="status.statusNr" value="${tracecardInstance?.status?.statusNr}"  />
                                 </td>
                             </tr>
                         
