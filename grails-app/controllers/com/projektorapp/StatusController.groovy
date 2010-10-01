@@ -61,7 +61,6 @@ class StatusController {
             if (params.version) {
                 def version = params.version.toLong()
                 if (statusInstance.version > version) {
-                    
                     statusInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'status.label', default: 'Status')] as Object[], "Another user has updated this Status while you were editing")
                     render(view: "edit", model: [statusInstance: statusInstance])
                     return

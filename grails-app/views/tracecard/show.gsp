@@ -102,7 +102,7 @@
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="tracecard.status.label" default="Status" /></td>
                             
-                            <td valign="top" class="value"><g:link controller="status" action="show" id="${tracecardInstance?.status?.id}">${tracecardInstance?.status?.encodeAsHTML()}</g:link></td>
+                            <td valign="top" class="value"><g:link controller="status" action="show" id="${tracecardInstance?.status?.id}">${tracecardInstance?.status?.statusNr?.encodeAsHTML()}</g:link></td>
                             
                         </tr>
                     

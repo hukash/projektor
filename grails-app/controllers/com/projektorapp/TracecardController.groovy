@@ -52,7 +52,14 @@ class TracecardController {
             redirect(action: "list")
         }
         else {
-            return [tracecardInstance: tracecardInstance]
+            // edit tracecard only if the status allows you to
+            if (tracecardInstance.status.statusNr > 1) {
+              flash.message = "${message(code: 'tracecard.not.allowed.message', args: [message(code: 'tracecard.label', default: 'Tracecard'), params.id])}"
+              redirect(action: "list")
+            }
+            else {
+              return [tracecardInstance: tracecardInstance]
+            }
         }
     }
 
