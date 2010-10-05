@@ -1,6 +1,4 @@
-
-
-
+package com.projektorapp
 
 /**
  * Authority domain class.

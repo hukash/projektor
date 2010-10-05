@@ -120,7 +120,7 @@ class TracecardController {
 
         if (user == tracecardInstance.creator) {
           inspectUser = true
-          println("User: " + tracecardInstance.creator + ", Status: " + tracecardInstance.status.statusNr)
+          println("com.projektorapp.User: " + tracecardInstance.creator + ", Status: " + tracecardInstance.status.statusNr)
         }
 
         if (actualStatus < 2) {

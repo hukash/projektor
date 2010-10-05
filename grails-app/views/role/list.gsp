@@ -1,3 +1,4 @@
+<%@ page import="com.projektorapp.Role" %>
 <head>
 	<meta name="layout" content="main" />
 	<title>Role List</title>

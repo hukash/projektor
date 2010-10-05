@@ -1,5 +1,6 @@
+package com.projektorapp
 /**
- * User controller.
+ * com.projektorapp.User controller.
  */
 class UserController {
 
@@ -90,7 +91,7 @@ class UserController {
 		long version = params.version.toLong()
 		if (person.version > version) {
 			person.errors.rejectValue 'version', "person.optimistic.locking.failure",
-				"Another user has updated this User while you were editing."
+				"Another user has updated this com.projektorapp.User while you were editing."
 				render view: 'edit', model: buildPersonModel(person)
 			return
 		}

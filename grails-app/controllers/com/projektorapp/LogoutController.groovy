@@ -1,3 +1,4 @@
+package com.projektorapp
 /**
  * Logout Controller (Example).
  */

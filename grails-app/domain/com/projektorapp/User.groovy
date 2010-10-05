@@ -1,5 +1,6 @@
+package com.projektorapp
 /**
- * User domain class.
+ * com.projektorapp.User domain class.
  */
 class User {
 	static transients = ['pass']
@@ -8,7 +9,7 @@ class User {
 
 	/** Username */
 	String username
-	/** User Real Name*/
+	/** com.projektorapp.User Real Name*/
 	String userRealName
 	/** MD5 Password */
 	String passwd

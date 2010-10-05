@@ -4,8 +4,8 @@ security {
 
 	active = true
 
-	loginUserDomainClass = "User"
-	authorityDomainClass = "Role"
+	loginUserDomainClass = "com.projektorapp.User"
+	authorityDomainClass = "com.projektorapp.Role"
 
     useRequestMapDomainClass = false
 
