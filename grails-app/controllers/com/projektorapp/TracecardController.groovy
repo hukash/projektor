@@ -2,6 +2,7 @@ package com.projektorapp
 
 import org.codehaus.groovy.grails.plugins.springsecurity.Secured
 
+
 @Secured(['ROLE_ADMIN'])
 class TracecardController {
 
@@ -53,7 +54,7 @@ class TracecardController {
         }
         else {
             // edit tracecard only if the status allows you to
-            if (tracecardInstance.status.statusNr > 1) {
+            if (!checkStatus(tracecardInstance)) {
               flash.message = "${message(code: 'tracecard.not.allowed.message', args: [message(code: 'tracecard.label', default: 'Tracecard'), params.id])}"
               redirect(action: "list")
             }
@@ -107,5 +108,30 @@ class TracecardController {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'tracecard.label', default: 'Tracecard'), params.id])}"
             redirect(action: "list")
         }
+    }
+    def checkStatus(tracecardInstance) {
+
+        def inspectUser = false
+        def inspectRole = false
+        def inspectStatus = false
+
+        def user = session.SPRING_SECURITY_LAST_USERNAME
+        def actualStatus = tracecardInstance.status.statusNr
+
+        if (user == tracecardInstance.creator) {
+          inspectUser = true
+          println("User: " + tracecardInstance.creator + ", Status: " + tracecardInstance.status.statusNr)
+        }
+
+        if (actualStatus < 2) {
+          inspectStatus = true
+        }
+        println(inspectUser)
+        println(inspectStatus)
+      
+        if((inspectUser == true) && (inspectStatus == true)) {
+          return true
+        }
+        else return false
     }
 }
