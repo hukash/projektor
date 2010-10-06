@@ -1,12 +1,15 @@
 package com.projektorapp
 
 import org.codehaus.groovy.grails.plugins.springsecurity.Secured
+import com.projektorapp.User
 
 
 @Secured(['ROLE_ADMIN'])
 class TracecardController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+
+    def authenticateService
 
     def index = {
         redirect(action: "list", params: params)
@@ -109,16 +112,24 @@ class TracecardController {
             redirect(action: "list")
         }
     }
+
     def checkStatus(tracecardInstance) {
+        def person = authenticateService.userDomain()
+        person = User.get(person.id)
+        if(!person) {
+          println("User not found")
+        } else {
+          println("User" + person.username)
+        }
 
         def inspectUser = false
         def inspectRole = false
         def inspectStatus = false
 
-        def user = session.SPRING_SECURITY_LAST_USERNAME
+        //def user = session.SPRING_SECURITY_LAST_USERNAME
         def actualStatus = tracecardInstance.status.statusNr
 
-        if (user == tracecardInstance.creator) {
+        if (person == tracecardInstance.creator) {
           inspectUser = true
           println("com.projektorapp.User: " + tracecardInstance.creator + ", Status: " + tracecardInstance.status.statusNr)
         }
