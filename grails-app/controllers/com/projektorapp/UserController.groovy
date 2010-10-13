@@ -104,7 +104,7 @@ class UserController {
 		if (person.save()) {
 			Role.findAll().each { it.removeFromPeople(person) }
 			addRoles(person)
-			redirect action: show, id: person.id
+			redirect action: show, id: person.id                                  
 		}
 		else {
 			render view: 'edit', model: buildPersonModel(person)

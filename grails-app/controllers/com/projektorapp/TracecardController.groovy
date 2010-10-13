@@ -121,39 +121,40 @@ class TracecardController {
    * @return statusControll
    */
 
+    // getLoginUser und getUserRoles zusammenfassen und in eine Map packen
     def getLoginUser(){
       def person = authenticateService.userDomain()
       person = User.get(person.id)
 
-      if (person) {
-        return person
-      } else {
-        println "User not found"
-      }
+      return person
     }
 
     def getUserRole(loginUser) {
       def person = loginUser
+
       List roleNames = []
       for (role in person.authorities){
         roleNames << role.authority
       }
-      println ("Role names: " + roleNames)
-      println ("User properties: " + person.getProperties())
+      return roleNames
+
+      // Check attributes
+      println("Role names: " + roleNames)
+      println("User properties: " + person.getProperties())
+      println("User authorities: "  + person.authorities)
     }
 
     def checkStatus(tracecardInstance) {
-
         def person = getLoginUser()
-        getUserRole(person)
+        List personRoles = getUserRole(person)
+        def actualStatus = tracecardInstance.status.statusNr
 
+        // Zusammenfassen in eine Map
         def inspectUser = false
         def inspectRole = false
         def inspectStatus = false
 
-        def actualStatus = tracecardInstance.status.statusNr
-
-        if (person == tracecardInstance.creator) {
+        if (person.username == tracecardInstance.creator) {
           inspectUser = true
           println("com.projektorapp.User: " + tracecardInstance.creator +
                   ", Status: " + tracecardInstance.status.statusNr +
