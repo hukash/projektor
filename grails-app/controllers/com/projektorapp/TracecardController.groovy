@@ -1,8 +1,6 @@
 package com.projektorapp
 
 import org.codehaus.groovy.grails.plugins.springsecurity.Secured
-import com.projektorapp.User
-
 
 @Secured(['ROLE_ADMIN'])
 class TracecardController {
@@ -113,25 +111,53 @@ class TracecardController {
         }
     }
 
+
+
+  /**
+   * Status Control: Check if the user is validate for editing the tracecard,
+   * abhängig vom Status
+   *
+   * @param tracecardInstance
+   * @return statusControll
+   */
+
+    def getLoginUser(){
+      def person = authenticateService.userDomain()
+      person = User.get(person.id)
+
+      if (person) {
+        return person
+      } else {
+        println "User not found"
+      }
+    }
+
+    def getUserRole(loginUser) {
+      def person = loginUser
+      List roleNames = []
+      for (role in person.authorities){
+        roleNames << role.authority
+      }
+      println ("Role names: " + roleNames)
+      println ("User properties: " + person.getProperties())
+    }
+
     def checkStatus(tracecardInstance) {
-        def person = authenticateService.userDomain()
-        person = User.get(person.id)
-        if(!person) {
-          println("User not found")
-        } else {
-          println("User" + person.username)
-        }
+
+        def person = getLoginUser()
+        getUserRole(person)
 
         def inspectUser = false
         def inspectRole = false
         def inspectStatus = false
 
-        //def user = session.SPRING_SECURITY_LAST_USERNAME
         def actualStatus = tracecardInstance.status.statusNr
 
         if (person == tracecardInstance.creator) {
           inspectUser = true
-          println("com.projektorapp.User: " + tracecardInstance.creator + ", Status: " + tracecardInstance.status.statusNr)
+          println("com.projektorapp.User: " + tracecardInstance.creator +
+                  ", Status: " + tracecardInstance.status.statusNr +
+                  ", Login user: " + person.username)
         }
 
         if (actualStatus < 2) {
