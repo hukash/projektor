@@ -115,61 +115,60 @@ class TracecardController {
 
   /**
    * Status Control: Check if the user is validate for editing the tracecard,
-   * abhängig vom Status
+   * depending on the status
    *
    * @param tracecardInstance
-   * @return statusControll
+   * @return statusControl
    */
 
-    // getLoginUser und getUserRoles zusammenfassen und in eine Map packen
-    def getLoginUser(){
-      def person = authenticateService.userDomain()
-      person = User.get(person.id)
+  def getUserCredentials = {
+    def userCredentials = [:]
 
-      return person
+    // get user information from Spring Security
+    def loggedInUser = authenticateService.userDomain()
+    loggedInUser = User.get(loggedInUser.id)
+    userCredentials['loggedInUser'] = loggedInUser.username
+
+    // get user roles from Spring Security
+    List roleNames = []
+    for (role in loggedInUser.authorities) {
+      roleNames << role.authority
     }
+    userCredentials['roleNames'] = roleNames
 
-    def getUserRole(loginUser) {
-      def person = loginUser
+    return userCredentials
+  }
 
-      List roleNames = []
-      for (role in person.authorities){
-        roleNames << role.authority
-      }
-      return roleNames
+   def checkStatus(tracecardInstance) {
+     def userCredentials = getUserCredentials()
+     def userPermissions = ['validUser':false, 'validRole':false, 'validStatus':false]
 
-      // Check attributes
-      println("Role names: " + roleNames)
-      println("User properties: " + person.getProperties())
-      println("User authorities: "  + person.authorities)
-    }
+     // valid user?
+     if (userCredentials.loggedInUser == tracecardInstance.creator) {
+       userPermissions.validUser = true
+     }
+     // valid role?
+     userCredentials.roleNames.each {
+       if(it == 'ROLE_ADMIN') {
+         userPermissions.validRole = true
+       }
+     }
+     // valid status?
+     if (tracecardInstance.status.statusNr < 3) {
+       userCredentials.validStatus = true
+     }
 
-    def checkStatus(tracecardInstance) {
-        def person = getLoginUser()
-        List personRoles = getUserRole(person)
-        def actualStatus = tracecardInstance.status.statusNr
+     println("Tracecard creator: " + tracecardInstance.creator +
+             ", Tracecard Status: " + tracecardInstance.status.statusNr +
+             ", Login user: " + userCredentials.loggedInUser +
+             ", " + userCredentials.roleNames.each {println "Role: $it"})
 
-        // Zusammenfassen in eine Map
-        def inspectUser = false
-        def inspectRole = false
-        def inspectStatus = false
+     // this needs to be fixed
+     if (userPermissions.each {it.value == true}) {
+       return true
+     }
+     else
+      return false
+   }
 
-        if (person.username == tracecardInstance.creator) {
-          inspectUser = true
-          println("com.projektorapp.User: " + tracecardInstance.creator +
-                  ", Status: " + tracecardInstance.status.statusNr +
-                  ", Login user: " + person.username)
-        }
-
-        if (actualStatus < 2) {
-          inspectStatus = true
-        }
-        println(inspectUser)
-        println(inspectStatus)
-      
-        if((inspectUser == true) && (inspectStatus == true)) {
-          return true
-        }
-        else return false
-    }
 }
